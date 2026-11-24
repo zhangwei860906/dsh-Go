@@ -232,17 +232,20 @@ void main() {
       // The two glass circles, left to right; their icons say which is which.
       Rect key(IconData icon) =>
           _rect(tester, find.ancestor(of: find.byIcon(icon), matching: find.byType(GlassSurface)).first);
+      final apps = key(AppIcons.apps);
       final features = key(AppIcons.allFeatures);
       final settings = key(AppIcons.settings);
       final pill = _rect(
         tester,
         find.descendant(of: bar, matching: find.byKey(const ValueKey('identity-host-controls'))),
       );
+      expect(apps.size, features.size);
       expect(features.size, settings.size);
       expect(features.width, _near(44));
       expect(features.height, _near(44));
       expect(settings.left - features.right, _near(8));
-      expect(features.left - pill.right, _near(8));
+      expect(features.left - apps.right, _near(8));
+      expect(apps.left - pill.right, _near(8));
       expect(drawer.right - settings.right, _near(10));
       expect(pill.left - drawer.left, _near(10));
       expect(pill.height, _near(features.height));

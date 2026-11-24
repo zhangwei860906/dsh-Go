@@ -137,6 +137,7 @@ class _PawAppPageState extends State<PawAppPage> {
         messenger.showSnackBar(
           SnackBar(
             content: Text(context.l10n.pawBackUnavailable),
+            persist: false,
             action: SnackBarAction(
               label: context.l10n.commonClose,
               onPressed: () {
@@ -159,6 +160,7 @@ class _PawAppPageState extends State<PawAppPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(context.l10n.pawExternalLink),
+          persist: false,
           action: SnackBarAction(
             label: context.l10n.pawOpenBrowser,
             onPressed: () => unawaited(launchUrl(uri, mode: LaunchMode.externalApplication)),
@@ -183,18 +185,10 @@ class _PawAppPageState extends State<PawAppPage> {
         if (!didPop) unawaited(_back());
       },
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 44,
-          leading: IconButton(
-            key: const ValueKey('paw-back-to-apps'),
-            tooltip: l10n.commonBack,
-            onPressed: _back,
-            icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-          ),
-          title: Text(l10n.pawTrading),
-        ),
+        // PAW owns the entire visible page. Do not add a DSH toolbar above
+        // its trading UI; the iOS leading-edge gesture and system back route
+        // through the same history-aware handler.
         body: SafeArea(
-          top: false,
           child: Stack(
             children: [
               if (!_failed) WebViewWidget(controller: _web),
@@ -214,6 +208,19 @@ class _PawAppPageState extends State<PawAppPage> {
                   alignment: Alignment.topCenter,
                   child: LinearProgressIndicator(value: _progress == 0 ? null : _progress / 100, minHeight: 2),
                 ),
+              Positioned(
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 20,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onHorizontalDragEnd: (details) {
+                    if ((details.primaryVelocity ?? 0) > 220) unawaited(_back());
+                  },
+                  child: const SizedBox.expand(),
+                ),
+              ),
             ],
           ),
         ),

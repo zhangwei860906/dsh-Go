@@ -1105,7 +1105,7 @@ class IdentityBar extends ConsumerWidget {
           ),
           const SizedBox(width: 8),
           if (onApps != null) ...[
-            _RoundButton(icon: Icons.apps_outlined, tooltip: l10n.pawApps, onTap: onApps!),
+            _RoundButton(icon: AppIcons.apps, tooltip: l10n.pawApps, onTap: onApps!),
             const SizedBox(width: 8),
           ],
           _RoundButton(icon: AppIcons.allFeatures, tooltip: l10n.hubSettingsAllFeatures, onTap: onFeatures),

@@ -54,17 +54,25 @@ void main() {
       expect(web.loads, [PawAppPage.entry]);
       web.finish();
       await tester.pumpAndSettle();
+      expect(find.byType(AppBar), findsNothing);
       return web;
     }
 
-    testWidgets('toolbar returns from the trading agent in the same WebView', (tester) async {
+    Future<void> edgeSwipeBack(WidgetTester tester) async {
+      final gesture = await tester.startGesture(const Offset(2, 300));
+      await gesture.moveBy(const Offset(100, 0));
+      await gesture.up(velocity: const Velocity(pixelsPerSecond: Offset(450, 0)));
+      await tester.pump();
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('edge swipe returns from the trading agent in the same WebView', (tester) async {
       final web = await open(tester);
       final agent = PawAppPage.entry.resolve('/v2/agent-ui/index.html?project=trading&mobile_handoff=1');
       web.loads.add(agent);
       web.history = 1;
 
-      await tester.tap(find.byKey(const ValueKey('paw-back-to-apps')));
-      await tester.pumpAndSettle();
+      await edgeSwipeBack(tester);
       expect(web.goBacks, 1);
       expect(web.loads, [PawAppPage.entry, agent]);
       expect(find.byKey(fakeWebViewKey), findsOneWidget);
@@ -101,8 +109,7 @@ void main() {
       final web = await open(tester);
       web.loads.add(PawAppPage.entry.resolve('/v2/agent-ui/login?next=%2Fpaw%2Fmobile'));
       web.history = 1;
-      await tester.tap(find.byKey(const ValueKey('paw-back-to-apps')));
-      await tester.pumpAndSettle();
+      await edgeSwipeBack(tester);
 
       expect(web.goBacks, 0);
       expect(find.byKey(const ValueKey('paw-app-entry')), findsOneWidget);
@@ -112,8 +119,7 @@ void main() {
       final web = await open(tester);
       web.history = 1;
       web.results = (_) => throw StateError('renderer unavailable');
-      await tester.tap(find.byKey(const ValueKey('paw-back-to-apps')));
-      await tester.pumpAndSettle();
+      await edgeSwipeBack(tester);
       expect(web.goBacks, 0);
       expect(find.byKey(fakeWebViewKey), findsOneWidget);
       await tester.tap(find.byType(SnackBarAction));
@@ -125,9 +131,12 @@ void main() {
       final web = await open(tester);
       web.history = 3;
       web.results = (_) => 2;
-      final back = tester.widget<IconButton>(find.byKey(const ValueKey('paw-back-to-apps'))).onPressed!;
-      back();
-      back();
+      final first = await tester.startGesture(const Offset(2, 300));
+      await first.moveBy(const Offset(100, 0));
+      await first.up(velocity: const Velocity(pixelsPerSecond: Offset(450, 0)));
+      final second = await tester.startGesture(const Offset(2, 300));
+      await second.moveBy(const Offset(100, 0));
+      await second.up(velocity: const Velocity(pixelsPerSecond: Offset(450, 0)));
       await tester.pumpAndSettle();
       expect(web.scripts, ['history.back()']);
       expect(web.goBacks, 0);

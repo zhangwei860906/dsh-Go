@@ -29,6 +29,7 @@ import '../apps/paw_app_page.dart';
 import '../onboarding/onboarding_flow.dart';
 import '../onboarding/setup_progress.dart';
 import '../remote/remote_screen.dart';
+import '../theme/app_icons.dart';
 import '../theme/theme.dart';
 import '../web/mode_home.dart';
 import 'brand_mark.dart';
@@ -455,7 +456,7 @@ class _RootGateState extends ConsumerState<RootGate> {
                     child: FilledButton.tonalIcon(
                       onPressed: () =>
                           Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const PawAppPage())),
-                      icon: const Icon(Icons.candlestick_chart_outlined, size: 18),
+                      icon: const Icon(AppIcons.chart, size: 18),
                       label: Text(context.l10n.pawEnter),
                     ),
                   ),

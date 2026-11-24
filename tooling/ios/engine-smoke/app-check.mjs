@@ -16,7 +16,12 @@ import { startFakeModel } from './model.mjs';
 
 const { values } = parseArgs({ options: Object.fromEntries(
   ['simulator', 'app', 'mode', 'shot'].map((name) => [name, { type: 'string' }])) });
-const bundleId = 'io.github.ccch1mneyyy.dshgo';
+// Test builds deliberately use a distinct bundle identifier (e.g. *.pawtest).
+// Read the identity from the exact app being installed instead of assuming the
+// production identifier, or simctl will install one app and query/launch another.
+const bundleId = execFileSync('/usr/libexec/PlistBuddy',
+  ['-c', 'Print :CFBundleIdentifier', join(values.app, 'Info.plist')], { encoding: 'utf8' }).trim();
+if (!bundleId) throw new Error('The built app has no CFBundleIdentifier');
 const clean = (text) => String(text).replace(/([?&]token=)[^\s&]+/g, '$1<redacted>')
   .replace(/%/g, '%25').replace(/\r?\n/g, '%0A');
 const notice = (title, text) => console.log(`::notice title=${title}::${clean(text).slice(0, 3500)}`);

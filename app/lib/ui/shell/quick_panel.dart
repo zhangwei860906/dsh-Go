@@ -24,7 +24,7 @@ extension DrawerDestinationLook on DrawerDestination {
     DrawerDestination.settings => AppIcons.settings,
     DrawerDestination.settingsSearch => AppIcons.search,
     DrawerDestination.features => AppIcons.allFeatures,
-    DrawerDestination.apps => Icons.apps_outlined,
+    DrawerDestination.apps => AppIcons.apps,
   };
 
   String label(L10n l10n) => switch (this) {
