@@ -35,6 +35,7 @@ class _PawAppPageState extends State<PawAppPage> {
   bool _failed = false;
   int _progress = 0;
   bool _handlingBack = false;
+  double _edgeDragDistance = 0;
 
   @override
   void initState() {
@@ -215,8 +216,13 @@ class _PawAppPageState extends State<PawAppPage> {
                 width: 20,
                 child: GestureDetector(
                   behavior: HitTestBehavior.translucent,
-                  onHorizontalDragEnd: (details) {
-                    if ((details.primaryVelocity ?? 0) > 220) unawaited(_back());
+                  onHorizontalDragStart: (_) => _edgeDragDistance = 0,
+                  onHorizontalDragUpdate: (details) {
+                    _edgeDragDistance += details.primaryDelta ?? 0;
+                  },
+                  onHorizontalDragEnd: (_) {
+                    if (_edgeDragDistance >= 72) unawaited(_back());
+                    _edgeDragDistance = 0;
                   },
                   child: const SizedBox.expand(),
                 ),

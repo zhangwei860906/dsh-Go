@@ -61,7 +61,7 @@ void main() {
     Future<void> edgeSwipeBack(WidgetTester tester) async {
       final gesture = await tester.startGesture(const Offset(2, 300));
       await gesture.moveBy(const Offset(100, 0));
-      await gesture.up(velocity: const Velocity(pixelsPerSecond: Offset(450, 0)));
+      await gesture.up();
       await tester.pump();
       await tester.pumpAndSettle();
     }
@@ -133,10 +133,10 @@ void main() {
       web.results = (_) => 2;
       final first = await tester.startGesture(const Offset(2, 300));
       await first.moveBy(const Offset(100, 0));
-      await first.up(velocity: const Velocity(pixelsPerSecond: Offset(450, 0)));
+      await first.up();
       final second = await tester.startGesture(const Offset(2, 300));
       await second.moveBy(const Offset(100, 0));
-      await second.up(velocity: const Velocity(pixelsPerSecond: Offset(450, 0)));
+      await second.up();
       await tester.pumpAndSettle();
       expect(web.scripts, ['history.back()']);
       expect(web.goBacks, 0);
