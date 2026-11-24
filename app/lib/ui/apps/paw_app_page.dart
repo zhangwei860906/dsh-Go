@@ -35,7 +35,7 @@ class _PawAppPageState extends State<PawAppPage> {
   bool _failed = false;
   int _progress = 0;
   bool _handlingBack = false;
-  DateTime? _lastBackAt;
+  bool _backDebounceActive = false;
   double _edgeDragDistance = 0;
 
   @override
@@ -114,11 +114,9 @@ class _PawAppPageState extends State<PawAppPage> {
   bool get _isCurrent => mounted && ModalRoute.of(context)?.isCurrent == true;
 
   Future<void> _back() async {
-    if (_handlingBack || !_isCurrent) return;
-    final now = DateTime.now();
-    final last = _lastBackAt;
-    if (last != null && now.difference(last) < const Duration(milliseconds: 450)) return;
-    _lastBackAt = now;
+    if (_handlingBack || _backDebounceActive || !_isCurrent) return;
+    _backDebounceActive = true;
+    Timer(const Duration(milliseconds: 450), () => _backDebounceActive = false);
     _handlingBack = true;
     try {
       const timeout = Duration(seconds: 2);
