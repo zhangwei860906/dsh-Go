@@ -95,6 +95,8 @@ void main() {
       expect(web.goBacks, 0);
       expect(find.byKey(fakeWebViewKey), findsOneWidget);
 
+      // A second intentional back follows after the transition debounce.
+      await Future<void>.delayed(const Duration(milliseconds: 500));
       depth = 0;
       await tester.binding.handlePopRoute();
       await tester.pump();
