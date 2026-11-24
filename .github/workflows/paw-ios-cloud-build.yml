@@ -1,0 +1,11 @@
+name: PAW iOS cloud build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ios:
+    uses: ./.github/workflows/ios-compile.yml
