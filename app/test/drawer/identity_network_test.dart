@@ -42,6 +42,7 @@ Future<ProviderContainer> _pump(
   VoidCallback? onHost,
   VoidCallback? onLocalDetails,
   VoidCallback? onWatchLink,
+  VoidCallback? onApps,
   double scale = 1,
 }) async {
   usePhoneSurface(tester);
@@ -72,6 +73,7 @@ Future<ProviderContainer> _pump(
                   onHost: onHost ?? () {},
                   onLocalDetails: onLocalDetails,
                   onFeatures: () {},
+                  onApps: onApps,
                   onSettings: () {},
                 ),
               ),
@@ -87,6 +89,14 @@ Future<ProviderContainer> _pump(
 
 void main() {
   setUp(() => AppLocale.use(AppLocale.zhCN));
+
+  testWidgets('PAW apps button stays usable in the 320px drawer footer', (tester) async {
+    var opens = 0;
+    await _pump(tester, onApps: () => opens++, scale: 1.25);
+    expect(tester.takeException(), isNull);
+    await tester.tap(find.byTooltip('应用'));
+    expect(opens, 1);
+  });
 
   for (final path in RelayPath.values) {
     testWidgets('host icon opens confirmed ${path.name} details; name still switches hosts', (tester) async {

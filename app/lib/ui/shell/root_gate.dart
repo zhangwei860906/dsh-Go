@@ -16,6 +16,7 @@ import '../../runtime/runtime_state.dart';
 import '../../share_code/guest_fs.dart';
 import '../../state/android_features.dart';
 import '../../state/app_mode_state.dart';
+import '../../state/connection_state.dart';
 import '../../state/engine_control.dart';
 import '../../state/hosts_state.dart';
 import '../../state/notify_state.dart';
@@ -24,6 +25,7 @@ import '../../state/onboarding_state.dart';
 import '../../state/settings_state.dart';
 import '../../ui_config/ui_skill.dart';
 import '../../usage/usage_stats.dart';
+import '../apps/paw_app_page.dart';
 import '../onboarding/onboarding_flow.dart';
 import '../onboarding/setup_progress.dart';
 import '../remote/remote_screen.dart';
@@ -419,13 +421,49 @@ class _RootGateState extends ConsumerState<RootGate> {
         launch.ready(waitsForEngine: ref.read(activeHostProvider).isLocal);
       });
     }
-    return AnimatedSwitcher(
+    final showPawEntry =
+        child is! _Splash &&
+        (_step != null || ref.watch(activeConnectionProvider.select((connection) => connection.asData?.value == null)));
+    final landing = AnimatedSwitcher(
       duration: AppMotion.of(context, AppMotion.page),
       switchInCurve: AppMotion.enter,
       switchOutCurve: AppMotion.exit,
       child: KeyedSubtree(
         key: ValueKey(child is _Splash ? 'splash' : (_step == null ? 'home' : 'onboarding')),
         child: child,
+      ),
+    );
+    // Keep the same landing subtree when a host connects or disconnects. Opening
+    // PAW only pushes a route, so returning resumes setup or the same DSH home.
+    return ColoredBox(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SafeArea(
+        top: showPawEntry,
+        bottom: false,
+        left: false,
+        right: false,
+        child: Column(
+          children: [
+            if (showPawEntry)
+              SafeArea(
+                top: false,
+                bottom: false,
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(end: 12),
+                    child: FilledButton.tonalIcon(
+                      onPressed: () =>
+                          Navigator.of(context).push(MaterialPageRoute<void>(builder: (_) => const PawAppPage())),
+                      icon: const Icon(Icons.candlestick_chart_outlined, size: 18),
+                      label: Text(context.l10n.pawEnter),
+                    ),
+                  ),
+                ),
+              ),
+            Expanded(child: landing),
+          ],
+        ),
       ),
     );
   }

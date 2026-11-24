@@ -58,7 +58,7 @@ private struct CompanionView: View {
         Text("DSH Go").font(.caption2)
       }.font(.caption2).foregroundColor(.white.opacity(0.65))
     }.foregroundColor(.white).padding(4)
-      .widgetURL(URL(string: "dshgo://open/companion"))
+      .widgetURL(URL(string: "dshgopaw://open/companion"))
   }
   var body: some View {
     if #available(iOS 17.0, *) {

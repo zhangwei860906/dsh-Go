@@ -57,7 +57,7 @@ Set<String> get pageLinkIds => {
 /// The page id [uri] names: exactly `dshgo://open/<id>` (a trailing slash is
 /// fine) with an id from [pageLinkIds]; null otherwise.
 String? pageLinkId(Uri uri) {
-  if (uri.scheme.toLowerCase() != appLinkScheme || uri.host.toLowerCase() != pageLinkHost) return null;
+  if (!supportedAppLinkSchemes.contains(uri.scheme) || uri.host.toLowerCase() != pageLinkHost) return null;
   if (uri.userInfo.isNotEmpty || uri.hasPort || uri.hasQuery || uri.hasFragment) return null;
   final segments = uri.pathSegments.where((s) => s.isNotEmpty).toList();
   if (segments.length != 1) return null;
@@ -124,7 +124,7 @@ VoidCallback registerPageLinks(LinkRouter router, {String? Function()? session, 
 /// it doesn't know — and returns true. False for every other link.
 bool openReplyPageLink(BuildContext context, String url) {
   final uri = Uri.tryParse(url.trim());
-  if (uri == null || uri.scheme.toLowerCase() != appLinkScheme || uri.host.toLowerCase() != pageLinkHost) {
+  if (uri == null || !supportedAppLinkSchemes.contains(uri.scheme) || uri.host.toLowerCase() != pageLinkHost) {
     return false;
   }
   try {

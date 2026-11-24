@@ -45,9 +45,9 @@ final class IOSLiveActivity {
     current.apply(args)
   }
 
-  /// A tap on the activity (`dshgo://live?…`), as the tap on a notification Dart reads.
+  /// A tap on the activity (`dshgopaw://live?…`), as the tap on a notification Dart reads.
   static func tap(_ url: URL) -> [AnyHashable: Any]? {
-    guard url.scheme == "dshgo", url.host == "live",
+    guard url.scheme == "dshgopaw", url.host == "live",
       let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems else { return nil }
     func value(_ name: String) -> String? { items.first { $0.name == name }?.value }
     guard let session = value("sessionId"), !session.isEmpty, session.count <= 200 else { return nil }

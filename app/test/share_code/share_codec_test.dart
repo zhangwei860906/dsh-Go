@@ -219,7 +219,9 @@ void main() {
       final code = encodeShareCode(const PluginShare(_plugin));
       final text = '试试这个插件：$shareLandingUrl#p=$code 很好用';
       expect(ShareLink.find(text)?.code, code);
-      expect(ShareLink.find('dshgo://share/plugin?p=$code\n')?.kind, ShareKind.plugin);
+      for (final scheme in ['dshgo', 'dshgopaw']) {
+        expect(ShareLink.find('$scheme://share/plugin?p=$code\n')?.kind, ShareKind.plugin);
+      }
       expect(ShareLink.find('没有链接'), isNull);
     });
   });

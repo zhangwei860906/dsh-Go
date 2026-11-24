@@ -23322,6 +23322,60 @@ abstract class L10n {
   /// **'更换'**
   String get nearbyChange;
 
+  /// No description provided for @pawBackUnavailable.
+  ///
+  /// In zh, this message translates to:
+  /// **'暂时无法读取页面历史。可以重试返回，或关闭 PAW。'**
+  String get pawBackUnavailable;
+
+  /// No description provided for @pawEnter.
+  ///
+  /// In zh, this message translates to:
+  /// **'进入 PAW'**
+  String get pawEnter;
+
+  /// No description provided for @pawApps.
+  ///
+  /// In zh, this message translates to:
+  /// **'应用'**
+  String get pawApps;
+
+  /// No description provided for @pawTrading.
+  ///
+  /// In zh, this message translates to:
+  /// **'PAW 交易'**
+  String get pawTrading;
+
+  /// No description provided for @pawDescription.
+  ///
+  /// In zh, this message translates to:
+  /// **'行情、交易、策略与模拟'**
+  String get pawDescription;
+
+  /// No description provided for @pawBackToApps.
+  ///
+  /// In zh, this message translates to:
+  /// **'返回应用'**
+  String get pawBackToApps;
+
+  /// No description provided for @pawLoadFailed.
+  ///
+  /// In zh, this message translates to:
+  /// **'PAW 页面未能加载'**
+  String get pawLoadFailed;
+
+  /// No description provided for @pawExternalLink.
+  ///
+  /// In zh, this message translates to:
+  /// **'此链接将离开 PAW'**
+  String get pawExternalLink;
+
+  /// No description provided for @pawOpenBrowser.
+  ///
+  /// In zh, this message translates to:
+  /// **'在浏览器打开'**
+  String get pawOpenBrowser;
+
   /// No description provided for @performanceTitle.
   ///
   /// In zh, this message translates to:
