@@ -35,6 +35,7 @@ class _PawAppPageState extends State<PawAppPage> {
   bool _failed = false;
   int _progress = 0;
   bool _handlingBack = false;
+  DateTime? _lastBackAt;
   double _edgeDragDistance = 0;
 
   @override
@@ -114,6 +115,10 @@ class _PawAppPageState extends State<PawAppPage> {
 
   Future<void> _back() async {
     if (_handlingBack || !_isCurrent) return;
+    final now = DateTime.now();
+    final last = _lastBackAt;
+    if (last != null && now.difference(last) < const Duration(milliseconds: 450)) return;
+    _lastBackAt = now;
     _handlingBack = true;
     try {
       const timeout = Duration(seconds: 2);
