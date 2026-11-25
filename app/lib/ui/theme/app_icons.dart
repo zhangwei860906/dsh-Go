@@ -17,6 +17,7 @@ abstract final class AppIcons {
   static const forward = DshGlyphs.arrowRight;
   static const close = DshGlyphs.x;
   static const menu = DshGlyphs.list;
+  static const apps = DshGlyphs.squaresFour;
   static const more = DshGlyphs.dotsThree;
 
   /// 系统「⋮」菜单(只在引导里指给用户看)。

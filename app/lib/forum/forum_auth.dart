@@ -179,7 +179,7 @@ class ForumAuthController extends Notifier<ForumAuthState> {
         'scopes': forumScopes.join(','),
         'public_key': keys.publicPem,
         'nonce': nonce,
-        'auth_redirect': forumAuthRedirect,
+        'auth_redirect': forumAuthRedirect(ref.read(operatingSystemProvider)),
         'padding': 'oaep',
       },
     );

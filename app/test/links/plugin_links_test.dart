@@ -42,6 +42,7 @@ void main() {
       for (final (link, name) in [
         ('https://go.dshtui.com/p/%40dsh-go%2Fmedia', '@dsh-go/media'),
         ('dshgo://go.dshtui.com/p/%40dsh-go%2Fmedia', '@dsh-go/media'),
+        ('dshgopaw://go.dshtui.com/p/%40dsh-go%2Fmedia', '@dsh-go/media'),
         ('dshgo://go.dshtui.com/p/@dsh-go/media', '@dsh-go/media'),
         ('https://GO.DSHTUI.COM/p/dsh-approval-gate/', 'dsh-approval-gate'),
         (marketPluginLink('@someone/dsh-weather'), '@someone/dsh-weather'),

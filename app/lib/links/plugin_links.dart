@@ -26,7 +26,7 @@ String marketPluginLink(String name) => '$shareHostOrigin/p/${Uri.encodeComponen
 /// the name encoded or not (`/p/@dsh-go/media`); null for anything else.
 String? marketPluginLinkName(Uri uri) {
   final scheme = uri.scheme.toLowerCase();
-  if (scheme != 'https' && scheme != appLinkScheme) return null;
+  if (scheme != 'https' && !supportedAppLinkSchemes.contains(scheme)) return null;
   if (uri.host.toLowerCase() != Uri.parse(shareHostOrigin).host || uri.userInfo.isNotEmpty || uri.hasPort) {
     return null;
   }

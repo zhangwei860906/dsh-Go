@@ -74,6 +74,10 @@ fi
 
 assets="$frameworks/App.framework/flutter_assets"
 [ -d "$assets" ] || fail "flutter_assets is missing"
+[ ! -e "$assets/assets/skills/pet-theme" ] || fail "iOS unexpectedly includes the pet-authoring skill"
+for pet in deepy-whale whale-girl pink-fish; do
+  [ -s "$assets/assets/pets/$pet/pack.json" ] || fail "missing built-in pet: $pet"
+done
 [ -f "$assets/kernel_blob.bin" ] && fail "flutter_assets has kernel_blob.bin: a Debug build's Dart in a Release app"
 note 'archive assets' "$(ls "$assets" | head -14 | tr '\n' ' ')"
 

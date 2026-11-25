@@ -48,7 +48,7 @@ struct DSHLiveAttributes: ActivityAttributes {
     /// Opens the conversation, like a tap on its notification (NotifyTaps).
     var url: URL? {
       var parts = URLComponents()
-      parts.scheme = "dshgo"
+      parts.scheme = "dshgopaw"
       parts.host = "live"
       parts.queryItems = [URLQueryItem(name: "host", value: host), URLQueryItem(name: "sessionId", value: session)]
         + (event.map { [URLQueryItem(name: "eventId", value: $0)] } ?? [])

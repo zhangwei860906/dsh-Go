@@ -57,7 +57,12 @@ import '../l10n/l10n.dart';
 import 'share_consumption.dart';
 
 /// Scheme of the app's own links.
-const appLinkScheme = 'dshgo';
+const appLinkScheme = 'dshgopaw';
+
+/// Portable links shared with stock DSH Go use this scheme. The PAW iOS
+/// build accepts it in-app and registers only [appLinkScheme] with iOS.
+const legacyAppLinkScheme = 'dshgo';
+const supportedAppLinkSchemes = {appLinkScheme, legacyAppLinkScheme};
 
 /// The native bridge: a broadcast stream of incoming links.
 class AppLinks {
@@ -285,7 +290,7 @@ class LinkRouter {
 
   LinkHandler? _handlerFor(Uri uri) {
     switch (uri.scheme.toLowerCase()) {
-      case appLinkScheme || 'https' || 'http':
+      case appLinkScheme || legacyAppLinkScheme || 'https' || 'http':
         for (final route in _routes) {
           if (route.matches(uri)) return route.handle;
         }
@@ -301,7 +306,7 @@ class LinkRouter {
   }
 
   static bool _canWait(Uri uri) => switch (uri.scheme.toLowerCase()) {
-    appLinkScheme || 'https' || 'http' || 'file' => true,
+    appLinkScheme || legacyAppLinkScheme || 'https' || 'http' || 'file' => true,
     _ => false,
   };
 

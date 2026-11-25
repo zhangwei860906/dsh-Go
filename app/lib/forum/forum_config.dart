@@ -8,7 +8,7 @@ const forumDefaultBaseUrl = 'https://forum.dshtui.com';
 /// Where Discourse sends the encrypted User API Key. Must be listed in the
 /// site setting `allowed_user_api_auth_redirects` (infra/forum/settings) and
 /// match exactly: Discourse compares path and query too.
-const forumAuthRedirect = 'dshgo://forum/auth';
+String forumAuthRedirect(String os) => os == 'ios' ? 'dshgopaw://forum/auth' : 'dshgo://forum/auth';
 
 /// The [forumAuthRedirect] route as the link router keys it.
 const forumAuthRoute = 'forum/auth';

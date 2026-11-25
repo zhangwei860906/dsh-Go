@@ -74,9 +74,10 @@ void main() {
     late FakeForumApi api;
     late List<(Uri, ForumCredentials?)> built;
 
-    ProviderContainer container() {
+    ProviderContainer container({String? os}) {
       final c = ProviderContainer(
         overrides: [
+          if (os != null) operatingSystemProvider.overrideWithValue(os),
           forumSecretStoreProvider.overrideWithValue(store),
           forumKeyPairFactoryProvider.overrideWithValue(() async => _keys),
           accountBrowserProvider.overrideWithValue(browser),
@@ -124,6 +125,15 @@ void main() {
       final pending = jsonDecode((await store.read('pending'))!) as Map;
       expect(pending['nonce'], q['nonce']);
     });
+
+    for (final (os, scheme) in [('ios', 'dshgopaw'), ('android', 'dshgo'), ('ohos', 'dshgo')]) {
+      test('uses the installed URI scheme on $os', () async {
+        final c = container(os: os);
+        await settled(c);
+        final url = await c.read(forumAuthProvider.notifier).authorizeUrl();
+        expect(url.queryParameters['auth_redirect'], '$scheme://forum/auth');
+      });
+    }
 
     test('the redirect signs in: key stored, user fetched', () async {
       final c = container();

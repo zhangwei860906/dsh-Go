@@ -8,7 +8,7 @@
 // The landing page keeps everything in the fragment, so nothing reaches its
 // server. `<code>` is `<data>.<sum>` (share_codec.dart).
 
-import '../links/app_links.dart' show appLinkScheme;
+import '../links/app_links.dart' show appLinkScheme, legacyAppLinkScheme, supportedAppLinkSchemes;
 import '../share_hosted/hosted_config.dart' show shareHostOrigin;
 import 'share_models.dart';
 
@@ -57,13 +57,13 @@ class ShareLink {
   /// `dshgo://share/…`.
   Uri get appLink => isGist
       ? Uri(
-          scheme: appLinkScheme,
+          scheme: legacyAppLinkScheme,
           host: shareLinkHost,
           path: '/profile',
           queryParameters: {'gist': gistId, 'c': gistSum},
         )
       : Uri(
-          scheme: appLinkScheme,
+          scheme: legacyAppLinkScheme,
           host: shareLinkHost,
           path: '/${(kind ?? ShareKind.plugin).name}',
           queryParameters: {'p': code},
@@ -75,7 +75,7 @@ class ShareLink {
   /// Reads an app link or a landing link; null for anything else.
   static ShareLink? parse(Uri uri) {
     try {
-      if (uri.scheme == appLinkScheme) {
+      if (supportedAppLinkSchemes.contains(uri.scheme)) {
         if (uri.host != shareLinkHost) return null;
         return _fromParams(uri.queryParameters, ShareKind.parse(uri.pathSegments.firstOrNull));
       }
@@ -103,7 +103,9 @@ class ShareLink {
   /// The first share link in [text] (a pasted message, a shared text).
   static ShareLink? find(String text) {
     final landing = _landingUrls.map((u) => RegExp.escape(u.replaceFirst(RegExp(r'^https?://'), ''))).join('|');
-    final pattern = RegExp('(?:$appLinkScheme://$shareLinkHost/[^\\s"\'<>]+|https?://(?:$landing)#[^\\s"\'<>]+)');
+    final pattern = RegExp(
+      '(?:(?:$legacyAppLinkScheme|$appLinkScheme)://$shareLinkHost/[^\\s"\'<>]+|https?://(?:$landing)#[^\\s"\'<>]+)',
+    );
     for (final match in pattern.allMatches(text)) {
       final uri = Uri.tryParse(match.group(0)!);
       final link = uri == null ? null : parse(uri);

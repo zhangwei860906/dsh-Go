@@ -12585,6 +12585,33 @@ class L10nZh extends L10n {
   String get nearbyChange => '更换';
 
   @override
+  String get pawBackUnavailable => '暂时无法读取页面历史。可以重试返回，或关闭 PAW。';
+
+  @override
+  String get pawEnter => '进入 PAW';
+
+  @override
+  String get pawApps => '应用';
+
+  @override
+  String get pawTrading => 'PAW 交易';
+
+  @override
+  String get pawDescription => '行情、交易、策略与模拟';
+
+  @override
+  String get pawBackToApps => '返回应用';
+
+  @override
+  String get pawLoadFailed => 'PAW 页面未能加载';
+
+  @override
+  String get pawExternalLink => '此链接将离开 PAW';
+
+  @override
+  String get pawOpenBrowser => '在浏览器打开';
+
+  @override
   String get performanceTitle => '性能';
 
   @override

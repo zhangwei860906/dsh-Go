@@ -67,7 +67,9 @@ void main() {
       final url = 'https://go.dshtui.com/c/Ab3dE5gH9k#k=$key';
       expect(findHostedUrl('「修复登录」· dsh-go 对话\n$url'), Uri.parse(url));
       expect(findHostedUrl('看这个：$url。'), Uri.parse(url));
-      expect(findHostedUrl('dshgo://go.dshtui.com/c/Ab3dE5gH9k#k=$key'), Uri.parse(url));
+      for (final scheme in ['dshgo', 'dshgopaw']) {
+        expect(findHostedUrl('$scheme://go.dshtui.com/c/Ab3dE5gH9k#k=$key'), Uri.parse(url));
+      }
       expect(findHostedUrl('https://evil.example/c/Ab3dE5gH9k#k=$key'), isNull);
       expect(findHostedUrl('https://go.dshtui.com/c/Ab3dE5gH9k#k=short'), isNull);
       expect(findHostedUrl('https://go.dshtui.com/share/#p=a.b'), isNull);
@@ -117,7 +119,7 @@ void main() {
       return links;
     }
 
-    for (final scheme in ['https', 'dshgo']) {
+    for (final scheme in ['https', 'dshgo', 'dshgopaw']) {
       testWidgets('$scheme link → replay', (tester) async {
         final links = await pumpHome(tester);
         links.add(Uri.parse('$scheme://go.dshtui.com/c/M000000001#k=$key'));

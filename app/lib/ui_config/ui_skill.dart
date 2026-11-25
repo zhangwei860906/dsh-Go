@@ -179,7 +179,7 @@ final extraSkillLoadersProvider = Provider<List<UiSkillBundleLoader>>((ref) {
     () => loadUiSkillBundle(null, guideSkillName, os),
     () => loadUiSkillBundle(null, supportSkillName),
     () => loadUiSkillBundle(null, companionAdaptSkillName),
-    () => loadUiSkillBundle(null, petThemeSkillName),
+    if (os != 'ios') () => loadUiSkillBundle(null, petThemeSkillName),
   ];
 });
 

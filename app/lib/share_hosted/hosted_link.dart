@@ -1,7 +1,7 @@
 // A hosted conversation link as the app keeps it.
 
 import '../l10n/l10n.dart';
-import '../links/app_links.dart' show appLinkScheme;
+import '../links/app_links.dart' show appLinkScheme, legacyAppLinkScheme, supportedAppLinkSchemes;
 import 'hosted_config.dart';
 import 'hosted_crypto.dart';
 
@@ -129,7 +129,9 @@ const hostedOrigins = [shareHostOrigin];
 /// one host.
 ({String origin, String id, String key})? parseHostedUrl(String text, {String? origin}) {
   final uri = Uri.tryParse(text.trim());
-  if (uri == null || (uri.scheme != 'https' && uri.scheme != appLinkScheme) || uri.host.isEmpty) return null;
+  if (uri == null || (uri.scheme != 'https' && !supportedAppLinkSchemes.contains(uri.scheme)) || uri.host.isEmpty) {
+    return null;
+  }
   if (uri.hasPort || uri.userInfo.isNotEmpty) return null;
   final base = 'https://${uri.host.toLowerCase()}';
   if (origin != null && base != origin) return null;
@@ -153,7 +155,7 @@ Uri? findHostedUrl(String text) {
   // The key is exactly 43 base64url characters, so punctuation right after a
   // link (「…#k=…。」) isn't taken for part of it.
   final pattern = RegExp(
-    '(?:https|$appLinkScheme)://(?:$hosts)/c/[0-9A-Za-z]{10}/?#k=[A-Za-z0-9_-]{43}(?![A-Za-z0-9_-])',
+    '(?:https|$legacyAppLinkScheme|$appLinkScheme)://(?:$hosts)/c/[0-9A-Za-z]{10}/?#k=[A-Za-z0-9_-]{43}(?![A-Za-z0-9_-])',
     caseSensitive: false,
   );
   for (final match in pattern.allMatches(text)) {

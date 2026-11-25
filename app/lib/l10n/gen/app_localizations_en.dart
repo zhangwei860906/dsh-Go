@@ -13286,6 +13286,33 @@ class L10nEn extends L10n {
   String get nearbyChange => 'Change';
 
   @override
+  String get pawBackUnavailable => 'Page history is unavailable. Try Back again or close PAW.';
+
+  @override
+  String get pawEnter => 'Open PAW';
+
+  @override
+  String get pawApps => 'Apps';
+
+  @override
+  String get pawTrading => 'PAW Trading';
+
+  @override
+  String get pawDescription => 'Markets, trading, strategies and paper';
+
+  @override
+  String get pawBackToApps => 'Back to apps';
+
+  @override
+  String get pawLoadFailed => 'PAW could not load';
+
+  @override
+  String get pawExternalLink => 'This link leaves PAW';
+
+  @override
+  String get pawOpenBrowser => 'Open in browser';
+
+  @override
   String get performanceTitle => 'Performance';
 
   @override

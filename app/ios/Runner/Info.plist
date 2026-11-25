@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>DSHCompanionAccessGroup</key>
-	<string>$(AppIdentifierPrefix)io.github.ccch1mneyyy.dshgo.companion-widget</string>
+	<string>$(AppIdentifierPrefix)com.zhangwei.dshgo.pawtest.companion-widget</string>
 	<key>NSSupportsLiveActivities</key>
 	<true/>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
@@ -25,7 +25,7 @@
 		<string>zh-Hans</string>
 	</array>
 	<key>CFBundleDisplayName</key>
-	<string>DSH Go</string>
+	<string>DSH Go PAW</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -73,7 +73,7 @@
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>New chat</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>io.github.ccch1mneyyy.dshgo.new</string>
+			<string>com.zhangwei.dshgo.pawtest.new</string>
 		</dict>
 		<dict>
 			<key>UIApplicationShortcutItemIconSymbolName</key>
@@ -81,7 +81,7 @@
 			<key>UIApplicationShortcutItemTitle</key>
 			<string>Voice input</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>io.github.ccch1mneyyy.dshgo.voice</string>
+			<string>com.zhangwei.dshgo.pawtest.voice</string>
 		</dict>
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -107,10 +107,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>io.github.ccch1mneyyy.dshgo</string>
+			<string>com.zhangwei.dshgo.pawtest</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>dshgo</string>
+				<string>dshgopaw</string>
 			</array>
 		</dict>
 	</array>
@@ -122,14 +122,14 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
-			<string>Owner</string>
+			<string>Alternate</string>
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>io.github.ccch1mneyyy.dshgo.share</string>
 			</array>
 		</dict>
 	</array>
-	<key>UTExportedTypeDeclarations</key>
+	<key>UTImportedTypeDeclarations</key>
 	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
