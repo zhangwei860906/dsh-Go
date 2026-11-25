@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // Builds the app's bundled skill app/assets/skills/dsh-go-plugin/ from skill/ (SKILL.md and the
-// plugin template) and the checker (bin/check.mjs, lib/, schema/). Flutter bundles a flat asset
+// plugin template) and the checker (bin/check-with-node.mjs, lib/, schema/). Flutter bundles a flat asset
 // directory, so each file is stored under a flat name and manifest.json maps it to its place in
 // the installed skill folder ($DSH_HOME/skills/dsh-go-plugin/…), like the dsh-go-ui skill.
 //
@@ -18,7 +18,8 @@ export const SKILL_DIR = join(kit, '..', '..', 'app', 'assets', 'skills', 'dsh-g
 export function sources() {
   const out = { 'SKILL.md': join(kit, 'skill', 'SKILL.md') }
   for (const f of ['package.json', 'cordis.patch.yml', 'lib/index.js']) out[`template/${f}`] = join(kit, 'skill', 'template', f)
-  out['kit/bin/check.mjs'] = join(kit, 'bin', 'check.mjs')
+  // The skill invokes its checker with Node. The npm executable has a separate launcher.
+  out['kit/bin/check.mjs'] = join(kit, 'bin', 'check-with-node.mjs')
   for (const f of ['check.js', 'view-check.js', 'style-check.js', 'controls-check.js', 'formula.js', 'messages.json', 'testing.js', 'json-schema.js']) out[`kit/lib/${f}`] = join(kit, 'lib', f)
   for (const f of ['limits.js', 'util.js', 'effects.js', 'manifest.js', 'capabilities.js']) out[`kit/lib/bridge/${f}`] = join(kit, 'lib', 'bridge', f)
   for (const f of readdirSync(join(kit, 'schema')).filter((f) => f.endsWith('.schema.json')).sort()) out[`kit/schema/${f}`] = join(kit, 'schema', f)

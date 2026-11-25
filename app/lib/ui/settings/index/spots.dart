@@ -944,6 +944,7 @@ abstract final class Spots {
     page: SettingsPageId.pets,
     title: (l) => l.botsPetMake,
     keywords: (l) => l.searchKwPets,
+    iosLacks: true,
   );
   static final workshop = SettingSpot(
     'workshop',

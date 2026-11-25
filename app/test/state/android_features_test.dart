@@ -447,10 +447,12 @@ void main() {
     testWidgets('on Android: App 外显示', (tester) async {
       await _pump(tester, const PetSettingsPage(), android: true, overrides: pets());
       expect(find.byType(PetOverlaySettingsSection), findsOneWidget);
+      expect(find.text(_zh.botsPetMake), findsOneWidget);
     });
 
     testWidgets('on HarmonyOS: the in-app pet\'s rows only', (tester) async {
       await _pump(tester, const PetSettingsPage(), android: false, overrides: pets());
+      expect(find.text(_zh.botsPetMake), findsOneWidget);
       expect(find.byType(PetOverlaySettingsSection), findsNothing);
       expect(find.text(_zh.botsPetSize), findsOneWidget);
       expect(find.text(_zh.botsPetQuiet), findsOneWidget);
@@ -458,6 +460,7 @@ void main() {
 
     testWidgets('on iOS: the optional out-of-app pet section remains available', (tester) async {
       await _pump(tester, const PetSettingsPage(), android: false, os: 'ios', overrides: pets());
+      expect(find.text(_zh.botsPetMake), findsNothing);
       expect(find.byType(PetOverlaySettingsSection), findsOneWidget);
     });
   });
@@ -527,6 +530,8 @@ void main() {
           ))
             h.spot?.id ?? 'feature:${h.feature!.id}',
         ];
+        expect(ids(_zh.botsPetMake, ios: true), isNot(contains('pet-make')));
+        expect(ids(_zh.botsPetMake, ios: false), contains('pet-make'));
         expect(ids(_zh.launchScreenTitle, ios: true), contains('launch-screen'));
         expect(ids(_zh.iconShortcutRow, ios: true), isNot(contains('icon-shortcut')));
         expect(ids(_zh.phoneEngineReset, ios: true), contains('engine-reset'));

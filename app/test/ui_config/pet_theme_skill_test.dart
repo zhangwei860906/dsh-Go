@@ -5,14 +5,27 @@
 
 import 'dart:io';
 
+import 'package:dsh_app/state/android_features.dart';
 import 'package:dsh_app/ui_config/ui_config.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 
 import 'support.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+
+  test('only supported engines receive the pet-authoring skill', () async {
+    for (final os in ['android', 'ohos', 'ios']) {
+      final container = ProviderContainer(overrides: [operatingSystemProvider.overrideWithValue(os)]);
+      addTearDown(container.dispose);
+      final names = <String>[
+        for (final load in container.read(extraSkillLoadersProvider)) (await load()).name,
+      ];
+      expect(names, contains(pluginSkillName), reason: os);
+      expect(names.contains(petThemeSkillName), os != 'ios', reason: os);
+    }
+  });
 
   test('bundle: converter scripts sit under scripts/, SKILL.md last and managed', () async {
     final bundle = await loadUiSkillBundle(readAssetFromDisk, petThemeSkillName);

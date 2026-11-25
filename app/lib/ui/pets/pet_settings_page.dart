@@ -60,7 +60,8 @@ class PetSettingsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final hasOutsideOverlay = ref.watch(androidSystemFeaturesProvider) || ref.watch(operatingSystemProvider) == 'ios';
+    final ios = ref.watch(operatingSystemProvider) == 'ios';
+    final hasOutsideOverlay = ref.watch(androidSystemFeaturesProvider) || ios;
     final prefs = ref.watch(petPrefsProvider);
     final now = ref.watch(petClockProvider)();
     final hidden = prefs.hiddenAt(now) ? prefs.hiddenUntil : null;
@@ -73,17 +74,18 @@ class PetSettingsPage extends ConsumerWidget {
           children: const [PetPicker(importable: true)],
         ),
         // 自己带来的素材：交给新对话里的 AI，用 pet-theme 技能转成宠物包.
-        SettingsSection(
-          children: [
-            SettingsTile(
-              spot: Spots.petMake,
-              icon: AppIcons.skill,
-              title: l10n.botsPetMake,
-              subtitle: l10n.botsPetMakeSubtitle,
-              onTap: () => _makePet(context),
-            ),
-          ],
-        ),
+        if (!ios)
+          SettingsSection(
+            children: [
+              SettingsTile(
+                spot: Spots.petMake,
+                icon: AppIcons.skill,
+                title: l10n.botsPetMake,
+                subtitle: l10n.botsPetMakeSubtitle,
+                onTap: () => _makePet(context),
+              ),
+            ],
+          ),
         // 创意工坊: pets other people made. Only where this build has one to open.
         if (ref.watch(workshopAvailableProvider))
           SettingsSection(
